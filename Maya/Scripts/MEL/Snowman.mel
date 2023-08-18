@@ -1,0 +1,236 @@
+//MAYA MEL COMMANDS: https://help.autodesk.com/cloudhelp/2022/ENU/Maya-Tech-Docs/Commands/index.html
+
+softSelect -softSelectReset; //softselect keeps not working
+
+/*create body spheres*/
+polySphere -r 5 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+//polySphere -radius 5 -subdivisionsX 20 -subdivisionsY 20 -axis 0 1 0 -createUVs 2 -constructionHistory 1;
+
+move -r -os -wd 0 5 0;
+//move -relative -objectSpace -worldSpaceDistance 0 5 0;
+select -replace pSphere1.vtx[380];
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add pSphere1.vtx[5];
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+softSelect -softSelectDistance 3.707027 -softSelectUVDistance 0.0630965; //this line will work only sometimes
+move -r -os -wd 0 0.7 0 ;
+
+polySphere -r 1 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+polySphere -e -r 3.5; //-e = -edit
+polySphere -q -sy; //-q = -query
+print(`polySphere -q -sy`);
+//the backtick ` character is on the same key on the keyboard as the tilde~
+//btw, the current selection in the maya scene is what the script is acting on
+move -r -os -wd 0 10.35 0 ;
+
+polySphere -r 2.5 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 0 14.5 0;
+
+
+/*create face*/
+//cone
+polyCone -radius 0.5 -height 2 -subdivisionsX 20 -subdivisionsY 3 -subdivisionsZ 0 -axis 0 1 0 -roundCap 0 -createUVs 3 -constructionHistory 1;
+move -r -os -wd 3.53 14.5 0 ;
+rotate -relative -objectSpace -forceOrderXYZ 0 0 -93.3 ;
+scale -relative 1 1.497978 1;
+select -r pCone1.e[34] ;
+select -add pCone1.e[20:39] ;
+move -r -os -wd -0.111481 0 -0.0511374 ; //this line stops working over time
+select -deselect pCone1.e[20:39] ;
+select -r pCone1.vtx[60] ;
+move -r -os -wd 0 0 -0.0950026 ;
+
+//eyes
+polySphere -r 0.4 -sx 20 -sy 20 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 2.1 15 -1.13;
+scale -r 0.3 1 1;
+rotate -r -os -fo 5.3 28.76 10.9;
+polyMirrorFace  -cutMesh 1 -axis 2 -axisDirection 0 -mergeMode 1 -mergeThresholdType 1 -mergeThreshold 0.01 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 pSphere4;
+rotate -r -os -fo 4 0 0;
+softSelect -ssd 0.363167 -sud 0.0630965 ; //this line also usually does not work
+select -r pSphere4.vtx[74] ;
+move -r -os -wd 0 0 -0.0970684 ;
+select -r pSphere4.vtx[222] ;
+move -r -os -wd 0 0 0.0366779 ;
+select -r pSphere4.vtx[477] ;
+move -r -os -wd 0 0.0806982 0 ;
+select -r pSphere4.vtx[721] ;
+move -r -os -wd 0 -0.109186 0 ;
+
+
+/*create hat*/
+polyCylinder -radius 1 -height 2 -subdivisionsX 20 -subdivisionsY 1 -subdivisionsZ 1 -axis 0 1 0 -roundCap 0 -createUVs 3 -constructionHistory 1;
+move -r -os -wd 0 17.6 0.42;
+rotate -r -os -fo 8.628005 0 0;
+duplicate -returnRootsOnly;
+scale -r 1.58 0.15 1.58;
+move -r -os -wd 0 -0.79479 0;
+
+
+/*create scarf*/
+polyCylinder -name "Scarf" -r 2.5 -h 1.1 -sx 20 -sy 3 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -os -wd 0 13.344714 0 ;
+rotate -r -os -fo 0 0 -2.531;
+scale -r 1.03 1 1.03;
+select -r Scarf.e[19] ;
+select -add Scarf.e[0:19] ;
+scale -r -p -2.38419e-07cm 12.794714cm -4.76837e-07cm 1.067145 1.067145 1.067145 ;
+select -r Scarf.e[61] ;
+select -add Scarf.e[60:79] ;
+scale -r -p 0.0242897cm 13.894177cm -4.76837e-07cm 1.041982 1.041982 1.041982 ;
+
+select -r Scarf.f[58] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add Scarf.f[38] ;
+select -add Scarf.f[18] Scarf.f[38] Scarf.f[58] Scarf.f[78] Scarf.f[98] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+move -r -os -wd 0.0674609 -0.196961 0 ;
+
+selectPref -paintSelectRefine 0 -paintSelect 0;
+select -r Scarf.f[8] ;
+select -add Scarf.f[0:99] ;
+select -r Scarf.f[28] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add Scarf.f[8] ;
+select -add Scarf.f[8] Scarf.f[28] Scarf.f[48] Scarf.f[68] Scarf.f[88] ;
+select -add Scarf.f[49] ;
+select -add Scarf.f[29] ;
+select -add Scarf.f[9] Scarf.f[29] Scarf.f[49] Scarf.f[69] Scarf.f[89] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+move -r -os -wd 0 0.130489 0 ;
+
+polyPlane -w 1.2 -h 4 -sx 1 -sy 4 -ax 0 1 0 -cuv 2 -ch 1;
+move -r -os -wd 3.09 11.83 0.79 ;
+rotate -r -os -fo 0 84.4 -74 ;
+select -add pPlane1.e[12] ;
+select -r pPlane1.e[9] ;
+move -r -os -wd 0 -0.316355 0 ;
+select -r pPlane1.e[0] ;
+move -r -os -wd 0 -0.211625 0 ;
+polyExtrudeFacet -constructionHistory 1 -keepFacesTogether 1 -pvx 2.84488883 -pvy 11.72900573 -pvz 0.43 -divisions 1 -twist 0 -taper 1 -off 0 -thickness 0 -smoothingAngle 30 pPlane1.f[0:3];
+setAttr "polyExtrudeFace1.localTranslate" -type double3 0 0 0.282956 ;
+select -r pPlane1.e[13] ;
+move -r -os -wd 0 0 0.259583 ;
+select -r pPlane1.e[12] ;
+move -r -os -wd 0 -0.387536 0 ;
+
+
+/*create arms*/
+polyCylinder -r 0.2 -h 5 -sx 20 -sy 4 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -os -wd 0.94 12.16 -3.67;
+rotate -r -os -fo -64.82 -10 -4.68;
+select -r pCylinder3.e[76] ;
+select -add pCylinder3.e[60:79] ;
+move -r -os -wd -smn 0 0 -0.172967 ;
+select -d pCylinder3.e[60:79] ;
+
+polyCylinder -r .15 -h .75 -sx 20 -sy 3 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -os -wd 1.4 13.52 -6;
+rotate -r -os -fo -29.75;
+select -r pCylinder4.e[78] ;
+select -add pCylinder4.e[60:79] ;
+scale -r -p 1.418303cm 13.846511cm -6.125943cm 0.52514 0.52514 0.52514;
+select -r pCylinder4 ;
+duplicate -rr;
+rotate -r -os -fo -35.91242 0 0 ;
+move -r -os -wd 0 0 -0.296738 ;
+scale -r 1 2.134719 1 ;
+move -r -os -wd 0 0.532303 0 ;
+
+select -r pCylinder5 ;
+select -add pCylinder4 ;
+select -add pCylinder3 ;
+polyUnite -ch 1 -mergeUVSets 1 -centerPivot -name pCylinder5 pCylinder5 pCylinder4 pCylinder3;
+
+polyMirrorFace  -cutMesh 0 -axis 2 -axisDirection 1 -mergeMode 0 -mergeThresholdType 0 -mergeThreshold 0.001 -mirrorAxis 2 -mirrorPosition 0 -smoothingAngle 30 -flipUVs 0 -ch 1 pCylinder6;
+polySeparate -uss 1 -inp 1 pCylinder6;
+connectAttr -f polyMirror2.firstNewFace polySeparate1.startFace;
+connectAttr -f polyMirror2.lastNewFace polySeparate1.endFace;
+select -r pCylinder10 ;
+move -r -os -wd 0 -0.760551 0 ;
+select -r pCylinder10.e[499] ;
+select -add pCylinder10.e[461] pCylinder10.e[464] pCylinder10.e[466] pCylinder10.e[468] pCylinder10.e[470] pCylinder10.e[472] pCylinder10.e[474] pCylinder10.e[476] pCylinder10.e[478] pCylinder10.e[480] pCylinder10.e[482] pCylinder10.e[484] pCylinder10.e[486] pCylinder10.e[488] pCylinder10.e[490] pCylinder10.e[492] pCylinder10.e[494] pCylinder10.e[496] pCylinder10.e[498:499] ;
+move -r -os -wd 0 0.334493 0 ;
+select -r pCylinder10.e[458] ;
+select -add pCylinder10.e[421] pCylinder10.e[424] pCylinder10.e[426] pCylinder10.e[428] pCylinder10.e[430] pCylinder10.e[432] pCylinder10.e[434] pCylinder10.e[436] pCylinder10.e[438] pCylinder10.e[440] pCylinder10.e[442] pCylinder10.e[444] pCylinder10.e[446] pCylinder10.e[448] pCylinder10.e[450] pCylinder10.e[452] pCylinder10.e[454] pCylinder10.e[456] pCylinder10.e[458:459] ;
+move -r -os -wd 0 0 0.44866 ;
+
+polyCylinder -r .15 -h .75 -sx 20 -sy 3 -sz 1 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -os -wd 1 11.25 4.5;
+rotate -r -os -fo -59.103675 0 0 ;
+select -r pCylinder11.e[18] ;
+select -add pCylinder11.e[0:19] ;
+scale -r -p 1.035142cm 11.061919cm 4.816245cm 0.544252 0.544252 0.544252 ;
+
+
+/*create snow*/
+polyCube -width 18 -height 2 -depth 24 -sx 4 -sy 1 -sz 4 -ax 0 1 0 -cuv 4 -ch 1;
+select -r pCube1.vtx[12] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add pCube1.vtx[13] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+move -r -os -wd 0 1.004622 0 ;
+rotate -r -p 2.25cm 2.004622cm 6cm -os -fo 0 0 6.309968 ;
+select -r pCube1.vtx[22] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add pCube1.vtx[21] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add pCube1.vtx[20] ;
+select -add pCube1.vtx[23] ;
+select -add pCube1.vtx[24] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+rotate -r -p 0cm 1cm -6cm -os -fo 0 0 -5.290351 ;
+select -r pCube1 ;
+select -add pCube1.vtx[20:24] ;
+select -r pCube1.vtx[14] ;
+move -r -os -wd 0 0.742382 0 ;
+select -r pCube1 ;
+select -add pCube1.vtx[14] ;
+select -r pCube1.vtx[19] ;
+move -r -os -wd 0 -0.449071 0 ;
+select -r pCube1.vtx[5] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add pCube1.vtx[9] ;
+select -add pCube1.vtx[5:9] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+rotate -r -p 0cm 1cm 12cm -os -fo 0 0 2.300129 ;
+
+
+/*create buttons*/
+polyCylinder -n "button" -r .3 -h .1 -sx 20 -sy 1 -sz 2 -ax 0 1 0 -rcp 0 -cuv 3 -ch 1;
+move -r -os -wd 3.35 12.05 0; 
+rotate -r -os -fo 0 0 -90;
+select -r button.f[48] ;
+dR_paintPress;
+selectPref -paintSelectRefine 1 -paintSelect 1;
+select -add button.f[47] ;
+select -add button.f[40:59] ;
+dR_paintRelease;
+selectPref -paintSelectRefine 0 -paintSelect 0;
+polyExtrudeFacet -constructionHistory 1 -keepFacesTogether 1 -pvx 3.400000001 -pvy 12.05000003 -pvz -5.960464478e-08 -divisions 1 -twist 0 -taper 1 -off 0 -thickness 0 -smoothingAngle 30 button.f[40:59];
+setAttr "polyExtrudeFace2.localTranslate" -type double3 0 0 0.060803 ;
+setAttr "polyExtrudeFace2.localScale" -type double3 0.566667 0.566667 0.566667 ;
+select -r button ;
+duplicate -rr;
+move -r -os -wd 1.285944 0.105244 0 ;
+duplicate -rr;
+move -r -os -wd 1.312753 -0.123042 0 ;
+rotate -r -os -fo 0 0 -22.519099 ;
+select -r button ;
+move -r -os -wd 0 -0.31489 0 ;
+rotate -r -os -fo 0 0 26.211301 ;

@@ -1,0 +1,8 @@
+
+string $selectedSkin[] = `ls -sl`;
+string $obj = $selectedSkin[0];
+
+$bindJnts = `skinCluster -q -inf $obj`;
+select -r $bindJnts;
+
+print($bindJnts);

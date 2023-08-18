@@ -1,0 +1,204 @@
+global proc float Sum(float $numbers[])
+{
+    float $sum;
+    for ($i=0; $i<size($numbers); $i++)
+    {
+        $sum += $numbers[$i];
+    }
+    return $sum;
+}
+
+global proc float Difference(float $numbers[])
+{
+    float $difference = $numbers[0];
+    for ($i=1; $i<size($numbers); $i++)
+    {
+        $difference -= $numbers[$i];
+    }
+    return $difference;
+}
+
+global proc float Product(float $numbers[])
+{
+    float $product = $numbers[0];
+    for ($i=1; $i<size($numbers); $i++)
+    {
+        $product *= $numbers[$i];
+    }
+    return $product;
+}
+
+global proc float Quotient(float $numbers[])
+{
+    float $quotient = $numbers[0];
+    for ($i=1; $i<size($numbers); $i++)
+    {
+        $quotient /= $numbers[$i];
+    }
+    return $quotient;
+}
+
+global proc float Exponent(float $numbers[])
+{
+    float $exponent = $numbers[0];
+    for ($i=1; $i<size($numbers); $i++)
+    {
+        $exponent = pow($exponent, $numbers[$i]);
+    }
+    return $exponent;
+}
+
+global proc float[] Sort(float $numbers[])
+{
+    float $greatestNum;
+    int $greatestIndex, $size = size($numbers);
+    //sort the array numbers from least to greatest:
+    for ($i=0; $i<$size; $i++)
+    {
+        $greatestNum = $numbers[$i];
+        $greatestIndex = $i;
+        // print("greatest num is " + $greatestNum + "\n");
+        for ($j=$i; $j<$size; $j++)
+        {
+            // print("greatest num is currently " + $greatestNum + ", current num is " + $numbers[$j] + "\n");
+            if ($greatestNum < $numbers[$j])
+            {
+                // print("num is higher! greatest will now become higher num.\n");
+                $greatestNum = $numbers[$j];
+                $greatestIndex = $j;
+            }
+        }
+        floatArrayRemoveAtIndex( $greatestIndex, $numbers);
+        floatArrayInsertAtIndex(0, $numbers, $greatestNum);
+        // print($greatestNum + " added to array.\n");
+    }
+    return $numbers;
+}
+
+global proc float Mean(float $numbers[])
+{
+    float $mean;
+    $mean = (Sum($numbers)/size($numbers));
+    return $mean;
+}
+
+global proc float Median(float $numbers[])
+{
+    float $median;
+    int $size = size($numbers);
+    //sort the array numbers from least to greatest:
+    $numbers = Sort($numbers);
+   
+    int $isOdd = $size % 2;
+    
+    // print($size/2.0);//have to explicitly use a float value (decimal) to return a float instead of an int -.-
+    if($isOdd == 1)
+    {   
+        int $index = floor(($size/2.0));
+        // print($numbers[$index]);
+        $median = ($numbers[$index]);
+    }
+    else if($isOdd == 0)
+    {
+        int $index = $size/2.0; //returns higher of two indexes
+        int $index2 = $index - 1;
+        // print(Mean({$index,$index2})+"\n"); //can't call this functions because it wants floats :P
+        $median = (($numbers[$index] + $numbers[$index2])/2);
+    }
+    else
+    {
+        print("error\n");
+        $median = -9999;
+    }
+
+    return $median;
+}
+
+
+
+global proc string Calculator(string $operation, float $numbers[])
+{
+    // print("Numbers: " + floatArrayToString($numbers, ", ") + "\n");
+    // print("You picked " + $operation + "...here's your result: ");
+    if($operation == "1")
+    {
+        return(Sum($numbers)+"\n");
+    }
+    else if($operation == "2")
+    {
+        return(Difference($numbers)+"\n");
+    }
+    else if($operation == "3")
+    {
+        return(Product($numbers)+"\n");
+    }
+    else if($operation == "4")
+    {
+        return(Quotient($numbers)+"\n");
+    }
+    else if($operation == "5")
+    {
+        return(Exponent($numbers)+"\n");
+    }
+    else if($operation == "6")
+    {
+        return(Mean($numbers)+"\n");
+    }
+    else if($operation == "7")
+    {
+        return(Median($numbers)+"\n");
+    }
+    else if ($operation == "8")
+    {
+        float $tempNum[] = Sort($numbers);
+        return(floatArrayToString($tempNum, ", "));
+    }
+    else
+    {
+        print("That's not a valid operation. Please specify one of the following operations: add, subtract, multiply, divide, exponent, mean, or median.\n");
+    }
+}
+
+global proc CalculationButton()
+{
+    string $field1 = `optionVar -q "floatField1"`;
+    string $field2 = `optionVar -q "floatField2"`;
+    string $operationOption = `optionVar -q "operationMenu"`;
+    string $textField = `optionVar -q "textField"`;
+
+    float $value1 = `floatField -q -v $field1`;
+    float $value2 = `floatField -q -v $field2`;
+    string $operation = `optionMenu -q -select $operationOption`;
+    string $result = "The result is: " + Calculator($operation, {$value1, $value2});
+    textField -e -text $result $textField;
+}
+
+global proc CalculatorUI()
+{
+    string $window = "mainWindow";
+    if(`window -ex $window`)
+    {
+        deleteUI $window;
+    }
+
+    $window = `window -t "Calculator" -wh 300 400 -resizeToFitChildren 1 $window`;
+    string $column = `columnLayout -adj 1`;
+    
+    optionVar -sv "floatField1" `floatField`;
+    optionVar -sv "floatField2" `floatField`;
+    optionVar -sv "operationMenu" `optionMenu -label "Operation:"`;
+            menuItem -label "add";
+            menuItem -label "subtract";
+            menuItem -label "multiply";
+            menuItem -label "divide";
+            menuItem -label "exponent";
+            menuItem -label "mean";
+            menuItem -label "median";
+    // optionVar -sv "operation" `radioButtonGrp -numberOfRadioButtons 4 -labelArray4 "add" "subtract" "multiply" "divide"`;
+    button -label "Calculate" -command CalculationButton;
+    optionVar -stringValue "textField" `textField -p $column -placeholderText "Result will appear here" -ed 0`;
+
+    showWindow $window;
+}
+
+CalculatorUI();
