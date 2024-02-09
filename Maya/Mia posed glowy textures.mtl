@@ -1,0 +1,60 @@
+newmtl Mia:Mia_eyes_uvSG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.38 0.38 0.38
+Tf 1.00 1.00 1.00
+map_Kd -mm_0_0.798982_Mia_for_texturing_skin_mat_BaseColor.png
+Ni 1.00
+newmtl Mia:lambert3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Mia_for_texturing_clothes_mat_BaseColor.png
+Ni 1.00
+newmtl Mia:lambert4SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd Mia_for_texturing_hair_mat_BaseColor.png
+Ni 1.00
+newmtl Mia:lambert5SG
+illum 4
+Kd 1.00 1.00 1.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl Mia:standardSurface2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.31 0.31 0.31
+Tf 1.00 1.00 1.00
+map_Kd Mia_for_texturing_eyes_teeth_mat_BaseColor.png
+Ni 1.00
+Ks 0.00 0.00 0.00
+newmtl initialShadingGroup
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+map_Kd books_and_boxes_lambert1_BaseColor.png
+Ni 1.00
+newmtl standardSurface1SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 0.00
+newmtl standardSurface2SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 0.00
+newmtl standardSurface3SG
+illum 4
+Kd 0.00 0.00 0.00
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 0.00
